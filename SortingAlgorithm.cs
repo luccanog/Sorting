@@ -17,49 +17,37 @@
     {
         public override int[] Sort(int[] nums)
         {
-            return Sort(nums, 0, nums.Length - 1);
+            return Sort(nums, 0, nums.Length);
         }
 
-        private int[] Sort(int[] nums, int leftIndex, int rightIndex)
+        private int[] Sort(int[] nums, int start, int end)
         {
-            if (nums.Length <= 1)
+            if (start < end)
             {
-                return nums;
-            }
+                int pivot = Partition(nums, start, end);
 
-            int pivot = nums[leftIndex], left = leftIndex, right = rightIndex;
-
-            while (left <= right)
-            {
-
-                while (nums[left] < pivot)
-                {
-                    left++;
-                }
-
-                while (nums[right] > pivot)
-                {
-                    right--;
-                }
-
-                if (left <= right)
-                {
-                    Swap(nums, left, right);
-                    left++;
-                    right--;
-                }
-            }
-
-            if (leftIndex < right)
-            {
-                Sort(nums, leftIndex, right);
-            }
-            if (left < rightIndex)
-            {
-                Sort(nums, left, rightIndex);
+                Sort(nums, start, pivot);
+                Sort(nums, pivot + 1, end);
             }
 
             return nums;
+        }
+
+        private int Partition(int[] nums, int start, int end)
+        {
+            int pivot = nums[start];
+            int swapIndex = start;
+
+            for (int i = start + 1; i < end; i++)
+            {
+                if (nums[i] < pivot)
+                {
+                    swapIndex++;
+                    Swap(nums, i, swapIndex);
+                }
+            }
+            Swap(nums, start, swapIndex);
+            return swapIndex;
         }
 
         private static void Swap(int[] nums, int left, int right)
