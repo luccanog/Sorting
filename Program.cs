@@ -18,11 +18,9 @@ namespace Sorting
         private static int GetSortingAlgOption()
         {
             int[] currentValidOptions = new int[] { 1, 2 };
-            int input = 0;
-            ;
+            int input;
             do
             {
-
                 WriteLine(ConsoleColor.White, "\n\n# Choose the desired sorting algorithm: ");
                 WriteLine(ConsoleColor.White, "\n1 - Merge sort \n2 - Quick sort");
                 Write(ConsoleColor.White, "\nR: ");
