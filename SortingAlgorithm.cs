@@ -17,32 +17,56 @@
     {
         public override int[] Sort(int[] nums)
         {
+            return Sort(nums, 0, nums.Length - 1);
+        }
+
+        private int[] Sort(int[] nums, int leftIndex, int rightIndex)
+        {
             if (nums.Length <= 1)
             {
                 return nums;
             }
 
-            var pivot = nums[0];
-            var lower = new List<int>();
-            var greater = new List<int>();
+            int pivot = nums[leftIndex], left = leftIndex, right = rightIndex;
 
-            for (int i = 1; i < nums.Length; i++)
+            while (left <= right)
             {
-                var num = nums[i];
-                if (num > pivot)
+
+                while (nums[left] < pivot)
                 {
-                    greater.Add(num);
+                    left++;
                 }
-                else
+
+                while (nums[right] > pivot)
                 {
-                    lower.Add(num);
+                    right--;
+                }
+
+                if (left <= right)
+                {
+                    Swap(nums, left, right);
+                    left++;
+                    right--;
                 }
             }
 
-            var lowerSorted = Sort(lower.ToArray());
-            var greaterSorted = Sort(greater.ToArray());
+            if (leftIndex < right)
+            {
+                Sort(nums, leftIndex, right);
+            }
+            if (left < rightIndex)
+            {
+                Sort(nums, left, rightIndex);
+            }
 
-            return lowerSorted.Append(pivot).Concat(greaterSorted).ToArray();
+            return nums;
+        }
+
+        private static void Swap(int[] nums, int left, int right)
+        {
+            int aux = nums[left];
+            nums[left] = nums[right];
+            nums[right] = aux;
         }
     }
 }
